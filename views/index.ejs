@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historias de Usuario</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 100vh; NO NOS VALE*/ 
+        }
+
+        .container {
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #555;
+        }
+
+        textarea, input, select {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Lista de Historias de Usuario</h2>
+
+        <form action="/enviar-historia" method="POST" onsubmit="return validarFormulario();">
+            <label for="historiaUsuario">Historia de Usuario:</label>
+            <textarea id="historiaUsuario" name="historiaUsuario" rows="3" required></textarea>
+
+            <label for="prioridad">Prioridad:</label>
+            <select id="prioridad" name="prioridad" required>
+                <option value="Alta">Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
+            </select>
+
+            <label for="fechaCaptura">Fecha de Captura:</label>
+            <input type="date" id="fechaCaptura" name="fechaCaptura" required>
+
+            <label for="responsable">Responsable:</label>
+            <input type="text" id="responsable" name="responsable" required>
+
+            <button type="submit">Enviar</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Historia</th>
+                    <th>Prioridad</th>
+                    <th>Fecha</th>
+                    <th>Responsable</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% historias.forEach(historia => { %>
+                    <tr>
+                        <td><%= historia.historiaUsuario %></td>
+                        <td><%= historia.prioridad %></td>
+                        <td><%= historia.fechaCaptura %></td>
+                        <td><%= historia.responsable %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function validarFormulario() {
+            let userStory = document.getElementById("historiaUsuario").value.trim();
+            if (!userStory.startsWith("Como") || !userStory.includes("quiero") || !userStory.includes("para que")) {
+                alert("La historia de usuario debe seguir el formato: 'Como ..., quiero ..., para que ...'");
+                return false;
+            }
+            return true;
+        }
+
+        
+    </script>
+    
+</body>
+</html>
